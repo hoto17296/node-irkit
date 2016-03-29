@@ -41,8 +41,16 @@ describe('IRKit', () => {
     assert.ok( irkit.available() );
   });
 
-  it('can send signal', (done) => {
+  it('can send signal object', (done) => {
     irkit.send(signal).then(() => {
+      assert.ok(true);
+      done();
+    });
+  });
+
+  it('can send signal JSON string', (done) => {
+    var json = JSON.stringify(signal);
+    irkit.send(json).then(() => {
       assert.ok(true);
       done();
     });
