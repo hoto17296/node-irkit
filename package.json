@@ -1,6 +1,6 @@
 {
   "name": "irkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Node.js wrapper for IRKit Internet HTTP API.",
   "main": "lib/index.js",
   "repository": "hoto17296/node-irkit",
