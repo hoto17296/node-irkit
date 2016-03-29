@@ -6,7 +6,7 @@ class IRKit {
   constructor(opts = {}) {
     this.clientKey = opts.clientKey || process.env.IRKIT_CLIENT_KEY;
     this.deviceId  = opts.deviceId  || process.env.IRKIT_DEVICE_ID;
-    this.apiUrl    = opts.apiUrl    || process.env.IRKIT_API_URL || 'https://api.getirkit.com/1/messages';
+    this.apiUrl    = opts.apiUrl    || process.env.IRKIT_API_URL || 'https://api.getirkit.com/1';
   }
 
   available() {
@@ -22,7 +22,7 @@ class IRKit {
         return reject('IRKit is unavailable.');
       }
       var data = {
-        url: this.apiUrl,
+        url: this.apiUrl + '/messages',
         form: {
           clientkey: this.clientKey,
           deviceid:  this.deviceId,
