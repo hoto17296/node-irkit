@@ -15,13 +15,16 @@ class IRKit {
 
   send(signal) {
     return new Promise((resolve, reject) => {
+      if ( typeof signal === 'string' || signal instanceof String ) {
+        signal = JSON.parse(signal);
+      }
       if ( typeof signal !== 'object' ) {
         return reject('Invalid signal.');
       }
       if ( ! this.available() ) {
         return reject('IRKit is unavailable.');
       }
-      var data = {
+      var params = {
         url: this.apiUrl + '/messages',
         form: {
           clientkey: this.clientKey,
@@ -29,7 +32,7 @@ class IRKit {
           message:   JSON.stringify(signal),
         }
       };
-      Request.post(data, (err) => {
+      Request.post(params, (err) => {
         if ( err ) {
           console.error(err);
           return reject('Failed to connect IRKit API.');
