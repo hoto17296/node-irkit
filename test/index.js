@@ -1,10 +1,21 @@
 import IRKit from '../lib'
 import http from 'http'
+import querystring from 'querystring'
 import assert from 'assert'
 
 var server = http.createServer((req, res) => {
   if ( req.url === '/1/messages' && req.method === 'POST' ) {
-    res.end();
+    let body = '';
+    req.on('data', (chunk) => body += chunk.toString());
+    req.on('end', () => {
+      body = querystring.parse(body);
+      if ( body.clientkey && body.deviceid && body.message ) {
+        let message = JSON.parse( body.message );
+        if ( message && Array.isArray( message.data ) ) {
+          res.end();
+        }
+      }
+    });
   }
 });
 
@@ -31,14 +42,8 @@ describe('IRKit', () => {
   });
 
   it('can send signal', (done) => {
-    var promise = irkit.send(signal);
-    promise.then(() => {
+    irkit.send(signal).then(() => {
       assert.ok(true);
-      done();
-    });
-    promise.catch((err) => {
-      console.log(err);
-      assert.ok(false);
       done();
     });
   });
